@@ -1,101 +1,173 @@
-# Webapp
+# 🎓 ECA Campus Management System — Frontend Web Application
 
-A modern frontend application for the ECA Campus Management System. It provides a full UI for managing students, academic programs, and enrollments through the API Gateway.
+A modern, highly responsive frontend application for the ECA Campus Management System, providing a comprehensive UI for managing students, academic programs, and enrollments — communicating seamlessly with backend microservices through a centralized API Gateway.
 
-## About
+🌐 **Live Deployed Application URL:** [http://34.100.138.116/](http://34.100.138.116/) *(Deployed on Google Cloud Run behind a Regional External Application Load Balancer)*
 
-This project is part of the Enterprise Cloud Application (ECA) module in the Higher Diploma in Software Engineering (HDSE) program at the Institute of Software Engineering (IJSE). It is intended exclusively for students enrolled in this program.
+---
 
-## Tech Stack
+## 📌 Student & Project Information
 
-| Technology | Details |
-|---|---|
-| Next.js | 16.1.6 (App Router) |
-| React | 19.2.3 |
-| TypeScript | 5 |
-| Tailwind CSS | 4 |
-| ShadCN UI | Component library (Radix UI primitives) |
-| React Hook Form | Form state management |
-| Zod | Schema validation |
-| Axios | HTTP client |
-| Lucide React | Icon set |
-| Sonner | Toast notifications |
-| date-fns | Date formatting |
+| Field | Details |
+| :--- | :--- |
+| **Student Name** | Lahiru Lakshan |
+| **Student Number** | 241711074 |
+| **Slack Handle** | Lahiru Sanjeewa |
+| **GCP Project ID** | lahiru-gcp-lab |
+| **Submission Type** | Alternative Option (Capstone Project) |
 
-## Features
+---
+
+## 📖 About The Project
+
+This project is submitted for the Enterprise Cloud Architecture (ITS 2130) module in the Higher Diploma in Software Engineering (HDSE) program at the Institute of Software Engineering (IJSE).
+
+The frontend consumes backend microservices deployed on Google Cloud Platform (GCP). It features Cloud Storage integration, where student profile pictures are successfully uploaded and fetched directly from a GCP Cloud Storage Bucket. The architecture ensures robust state management, form validation, and optimized routing across the full campus management workflow.
+
+---
+
+## 🏛️ How This App Fits the Architecture
+
+```text
+┌────────────────────────────┐
+│   Frontend Web App         │
+│   (Next.js — Cloud Run)    │
+│   Port 3000                │
+└──────────────┬─────────────┘
+               │ HTTP (Axios)
+               ▼
+┌────────────────────────────┐
+│   api-gateway (Port 7000)  │
+│   Spring Cloud Gateway     │
+└──────────────┬─────────────┘
+               │ lb://
+   ┌───────────┼───────────────┐
+   ▼           ▼               ▼
+student-svc  program-svc  enrollment-svc
+   │
+   ▼
+Google Cloud Storage
+(Profile Pictures)
+```
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology | Description |
+| :--- | :--- | :--- |
+| **Framework** | Next.js 16.1.6 | App Router for SSR and optimized routing |
+| **Library** | React 19.2.3 | Core UI library |
+| **Language** | TypeScript 5 | Static typing for enterprise-grade code |
+| **Styling** | Tailwind CSS 4 | Utility-first CSS framework |
+| **Components** | ShadCN UI | Accessible Radix UI primitives |
+| **Forms** | React Hook Form | Performant form state management |
+| **Validation** | Zod | TypeScript-first schema validation |
+| **Networking** | Axios | Promise-based HTTP client for API requests |
+| **Icons** | Lucide React | Clean and modern icon set |
+| **Feedback** | Sonner | Toast notifications for user interactions |
+| **Utilities** | date-fns | Modern JavaScript date utility library |
+| **Cloud Deployment** | Google Cloud Run | Serverless container hosting |
+| **Networking (Cloud)** | Regional External Application Load Balancer | Routes public traffic to the deployed app |
+
+---
+
+## ✨ Core Features
 
 | Page | Path | Description |
-|---|---|---|
-| Dashboard | `/dashboard` | Stats overview, recent enrollments, quick actions |
-| Students | `/students` | Create, view, edit, delete students with avatar display |
-| Programs | `/programs` | Create, view, edit, delete programs (card & table views) |
-| Enrollments | `/enrollments` | Create, view, edit, delete enrollments with program filtering |
+| :--- | :--- | :--- |
+| **Dashboard** | `/dashboard` | System statistics overview, recent enrollment activities, and quick action shortcuts. |
+| **Students** | `/students` | Full CRUD operations for students, featuring direct GCP Bucket avatar display and uploads. |
+| **Programs** | `/programs` | Create, view, edit, and delete academic programs utilizing responsive card and table views. |
+| **Enrollments** | `/enrollments` | Streamlined enrollment management linking students to programs with active filtering. |
 
-## Project Structure
+---
 
-```
+## 📂 Project Structure
+
+```text
 webapp/
 ├── app/
 │   ├── layout.tsx            # Root layout (Sidebar + Header + Toaster)
-│   ├── page.tsx              # Redirects to /dashboard
-│   ├── dashboard/page.tsx    # Dashboard overview
-│   ├── students/page.tsx     # Student management
-│   ├── programs/page.tsx     # Program management
-│   └── enrollments/page.tsx  # Enrollment management
+│   ├── page.tsx              # Entry point (Redirects to /dashboard)
+│   ├── dashboard/page.tsx    # Dashboard overview interface
+│   ├── students/page.tsx     # Student management interface
+│   ├── programs/page.tsx     # Program management interface
+│   └── enrollments/page.tsx  # Enrollment management interface
 ├── components/
 │   ├── layout/
 │   │   ├── sidebar.tsx       # Fixed navigation sidebar
 │   │   └── header.tsx        # Sticky top header
 │   ├── students/
-│   │   └── student-form.tsx  # Student create/edit form
+│   │   └── student-form.tsx  # Form component for Student entities
 │   ├── programs/
-│   │   └── program-form.tsx  # Program create/edit form
+│   │   └── program-form.tsx  # Form component for Program entities
 │   └── enrollments/
-│       └── enrollment-form.tsx # Enrollment create/edit form
+│       └── enrollment-form.tsx # Form component for Enrollment logic
 ├── lib/
-│   └── api.ts                # Axios API client (studentApi, programApi, enrollmentApi)
+│   └── api.ts                # Axios API client configurations & interceptors
 ├── types/
-│   └── index.ts              # Shared TypeScript types
-└── .env.local                # Environment variables
+│   └── index.ts              # Shared TypeScript interfaces and types
+└── .env.local                # Environment configurations
 ```
 
-## Environment Variables
+---
 
-Create a `.env.local` file in the `webapp/` directory:
+## ⚙️ Getting Started (Local Development)
+
+> ⚠️ **Prerequisites:** To ensure the frontend functions correctly, all backend services must be up and running locally or remotely.
+
+### 🔢 Recommended Microservices Startup Order
+
+| Step | Service | Port |
+| :--- | :--- | :--- |
+| 1 | Config Server | `9000` |
+| 2 | Service Registry (Eureka) | `9001` |
+| 3 | API Gateway | `7000` |
+| 4 | Student Service | Random / 0 |
+| 5 | Program Service | Random / 0 |
+| 6 | Enrollment Service | Random / 0 |
+| 7 | Webapp (this repo) | `3000` |
+
+*Backend microservices run on random ports and are accessed dynamically via the API Gateway running on port 7000.*
+
+---
+
+### 1️⃣ Configure Environment Variables
+Create a `.env.local` file in the root `webapp/` directory and point it to your API Gateway endpoint:
 
 ```env
-NEXT_PUBLIC_API_GATEWAY_URL=http://localhost:7000
+NEXT_PUBLIC_API_URL=http://localhost:7000
 ```
 
-## Getting Started
-
-Follow the lecture guidelines, refer to the lecture video for more information and how to get started correctly.
-
-> **Prerequisites:** All backend services (Config-Server, Service-Registry, Api-Gateway, Student-Service, Program-Service, Enrollment-Service) must be running before starting the webapp.
-
-**Full startup order:**
-1. Config-Server (`9000`)
-2. Service-Registry (`9001`)
-3. Api-Gateway (`7000`)
-4. Student-Service (`8000`)
-5. Program-Service (`8001`)
-6. Enrollment-Service (`8002`)
-7. **Webapp** (`3000`)
-
-Install dependencies:
-
+### 2️⃣ Install Dependencies
 ```bash
 npm install
 ```
 
-Start the development server:
-
+### 3️⃣ Start the Development Server
 ```bash
 npm run dev
 ```
 
-The application will be available at: `http://localhost:3000`
+The application will be available at `http://localhost:3000`.
 
-## Need Help?
+---
 
-If you encounter any issues, feel free to reach out and start a discussion via the Slack workspace.
+## ☁️ Production Deployment (GCP)
+
+The application is containerized and deployed to Google Cloud Run, sitting behind a Regional External Application Load Balancer for public access, scalability, and SSL termination.
+
+```bash
+# Example build & deploy flow
+docker build -t gcr.io/lahiru-gcp-lab/frontend-webapp .
+docker push gcr.io/lahiru-gcp-lab/frontend-webapp
+gcloud run deploy frontend-webapp \
+  --image gcr.io/lahiru-gcp-lab/frontend-webapp \
+  --platform managed \
+  --region <your-region> \
+  --allow-unauthenticated
+```
+
+## 📄 License
+
+This project was developed as part of the Enterprise Cloud Architecture university module (Capstone Project — Alternative Option).
